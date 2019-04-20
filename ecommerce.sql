@@ -1,4 +1,5 @@
 create table orders
+(
   OrderId     int auto_increment
     primary key,
   UPhone      varchar(11)    null,
