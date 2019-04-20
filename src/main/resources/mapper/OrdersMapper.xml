@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niit.dao.OrdersMapper">
+    <resultMap id="BaseResultMap" type="com.niit.entity.Orders">
+        <id column="OrderId" property="orderid" jdbcType="INTEGER"/>
+        <result column="UPhone" property="uphone" jdbcType="VARCHAR"/>
+        <result column="PId" property="pid" jdbcType="INTEGER"/>
+        <result column="AId" property="aid" jdbcType="INTEGER"/>
+        <result column="Money" property="money" jdbcType="DECIMAL"/>
+        <result column="Expect" property="expect" jdbcType="INTEGER"/>
+        <result column="ExpectType" property="expecttype" jdbcType="INTEGER"/>
+        <result column="ExceptOther" property="exceptother" jdbcType="VARCHAR"/>
+        <result column="OrderDate" property="orderdate" jdbcType="TIMESTAMP"/>
+        <association property="projectByPId" select="selectprojectbypid" column="PId"/>
+        <association property="usersAddressByAId" select="selectaddress" column="AId"/>
+        <association property="usersByUPhone" select="selectusersByUPhone" column="UPhone"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    OrderId, UPhone, PId, AId, Money, Expect, ExpectType, ExceptOther, OrderDate
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from orders
+        where OrderId = #{orderid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where OrderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.niit.entity.Orders">
+    insert into orders (OrderId, UPhone, PId, 
+      AId, Money, Expect, 
+      ExpectType, ExceptOther, OrderDate
+      )
+    values (#{orderid,jdbcType=INTEGER}, #{uphone,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, 
+      #{aid,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{expect,jdbcType=INTEGER}, 
+      #{expecttype,jdbcType=INTEGER}, #{exceptother,jdbcType=VARCHAR}, #{orderdate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.niit.entity.Orders">
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderid != null">
+                OrderId,
+            </if>
+            <if test="uphone != null">
+                UPhone,
+            </if>
+            <if test="pid != null">
+                PId,
+            </if>
+            <if test="aid != null">
+                AId,
+            </if>
+            <if test="money != null">
+                Money,
+            </if>
+            <if test="expect != null">
+                Expect,
+            </if>
+            <if test="expecttype != null">
+                ExpectType,
+            </if>
+            <if test="exceptother != null">
+                ExceptOther,
+            </if>
+            <if test="orderdate != null">
+                OrderDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderid != null">
+                #{orderid,jdbcType=INTEGER},
+            </if>
+            <if test="uphone != null">
+                #{uphone,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="aid != null">
+                #{aid,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="expect != null">
+                #{expect,jdbcType=INTEGER},
+            </if>
+            <if test="expecttype != null">
+                #{expecttype,jdbcType=INTEGER},
+            </if>
+            <if test="exceptother != null">
+                #{exceptother,jdbcType=VARCHAR},
+            </if>
+            <if test="orderdate != null">
+                #{orderdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.niit.entity.Orders">
+        update orders
+        <set>
+            <if test="uphone != null">
+                UPhone = #{uphone,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null">
+                PId = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="aid != null">
+                AId = #{aid,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                Money = #{money,jdbcType=DECIMAL},
+            </if>
+            <if test="expect != null">
+                Expect = #{expect,jdbcType=INTEGER},
+            </if>
+            <if test="expecttype != null">
+                ExpectType = #{expecttype,jdbcType=INTEGER},
+            </if>
+            <if test="exceptother != null">
+                ExceptOther = #{exceptother,jdbcType=VARCHAR},
+            </if>
+            <if test="orderdate != null">
+                OrderDate = #{orderdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where OrderId = #{orderid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.niit.entity.Orders">
+    update orders
+    set UPhone = #{uphone,jdbcType=VARCHAR},
+      PId = #{pid,jdbcType=INTEGER},
+      AId = #{aid,jdbcType=INTEGER},
+      Money = #{money,jdbcType=DECIMAL},
+      Expect = #{expect,jdbcType=INTEGER},
+      ExpectType = #{expecttype,jdbcType=INTEGER},
+      ExceptOther = #{exceptother,jdbcType=VARCHAR},
+      OrderDate = #{orderdate,jdbcType=TIMESTAMP}
+    where OrderId = #{orderid,jdbcType=INTEGER}
+  </update>
+
+    <select id="findAllOrder" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from orders where uPhone = #{s}
+    </select>
+    <insert id="saveorder" parameterType="com.niit.entity.Orders">
+    insert into orders (OrderId, UPhone, PId,
+      AId, Money, Expect,
+      ExpectType, ExceptOther, OrderDate
+      )
+    values (#{orderid,jdbcType=INTEGER}, #{uphone,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+      #{aid,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, #{expect,jdbcType=INTEGER},
+      #{expecttype,jdbcType=INTEGER}, #{exceptother,jdbcType=VARCHAR}, #{orderdate,jdbcType=TIMESTAMP}
+      );
+
+    update project set pnm = pnm+#{money,jdbcType=DECIMAL},pnp=pnp+1 where pid = #{pid,jdbcType=INTEGER};
+  </insert>
+
+    <select id="selectprojectbypid" resultType="Project">
+    select * from Project where pid = #{Pid}
+    </select>
+
+    <select id="selectaddress" resultType="UsersAddress">
+    select * from usersaddress where aid = #{AId}
+    </select>
+
+    <select id="findOrderByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select * from Orders where pid = #{pid}
+    </select>
+
+    <select id="selectusersByUPhone" resultType="Users" parameterType="java.lang.String">
+    select * from users where UPhone = #{UPhone}
+    </select>
+
+</mapper>
