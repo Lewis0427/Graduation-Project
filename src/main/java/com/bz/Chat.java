@@ -86,7 +86,6 @@ public class Chat{
         sendUser = Integer.parseInt(jsonOject.getString("sendUser"));
         toUser = Integer.parseInt(jsonOject.getString("toUser"));
         message = jsonOject.getString("message");
-        message = "来自:" + sendUser + "用户发给" + toUser + "用户的信息:" + message + " \r\n";
         // 得到接收人
         Chat user = webSocketMap.get(toUser);
         if (user == null) {//如果接收人不存在则保持到数据库
