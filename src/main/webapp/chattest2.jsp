@@ -88,15 +88,7 @@
             var sendUser = document.getElementById("sendUser").value;
             var toUser = document.getElementById("toUser").value;
             var message = textContent;
-
-            var jsonMsg = {"sendUser": sendUser, "toUser": toUser, "message": message}
-            websocket.send(JSON.stringify(jsonMsg));
-        }
-    </script>
-</head>
-<body>
-
-账　号:<input type="text" name="sendUser" id="sendUser"/>
+ser" id="sendUser"/>v
 <input type="button" id="login" value="登录" onclick="login()"/>
 <input type="button" onclick="closeWebSocket()" value="退出"/>
 在线人数:<font id="count"></font>　　　连接状态:<font id="status"></font>
