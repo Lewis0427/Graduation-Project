@@ -23,6 +23,7 @@
     <script type="text/javascript">
         var websocket = null;
 
+
         function login() {
             if ('WebSocket' in window) {
                 var sendUser = document.getElementById("sendUser").value;
@@ -50,7 +51,9 @@
                     var data = msg.split(":");
                     document.getElementById('count').innerHTML = data[1];
                 } else {
-                    setMessageInnerHTML(event.data);
+                    var message = JSON.parse(event.data);
+                    var content = message.message;
+                    setMessageInnerHTML(content);
                 }
             }
 

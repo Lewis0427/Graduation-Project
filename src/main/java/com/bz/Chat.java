@@ -15,6 +15,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+
+import com.alibaba.fastjson.JSON;
 import net.sf.json.JSONObject;
 
 //该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。类似Servlet的注解mapping。无需在web.xml中配置。
@@ -86,13 +88,19 @@ public class Chat{
         sendUser = Integer.parseInt(jsonOject.getString("sendUser"));
         toUser = Integer.parseInt(jsonOject.getString("toUser"));
         message = jsonOject.getString("message");
+        //
+        JSONObject msg = new JSONObject();
+        msg.put("user", sendUser);
+        msg.put("message", message);
+        msg.put("type", 1);
+        //
         // 得到接收人
         Chat user = webSocketMap.get(toUser);
         if (user == null) {//如果接收人不存在则保持到数据库
             System.out.println("信息已保存到数据库");
             return;
         }
-        user.sendMessage("send",message);
+        user.sendMessage("send", JSON.toJSONString(msg));
     }
     /**
      * 发成错误所调用的方法
