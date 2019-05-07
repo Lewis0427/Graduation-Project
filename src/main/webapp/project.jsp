@@ -25,6 +25,7 @@
 
 
         function login() {
+
             if ('WebSocket' in window) {
                 var sendUser = document.getElementById("sendUser").value;
                 document.getElementById("sendUser").disabled = true;
@@ -332,14 +333,14 @@
     <div id="right2">
         <div id="desc">
 
-            账　号:<input type="text" name="sendUser" id="sendUser"/>
-            <input type="button" id="login" value="登录" onclick="login()"/>
-            <input type="button" onclick="closeWebSocket()" value="退出"/>
+            账　号:<input type="text" name="sendUser" id="sendUser" value="${user.uphone}" hidden/>
+
+            <input type="button" onclick="closeWebSocket()" value="退出" hidden/>
             在线人数:<font id="count"></font>　　　连接状态:<font id="status"></font>
 
             <br/>
-            接收人:<input type="text" name="toUser" id="toUser"/><br/>
-            <btn id="qbtn">咨询客服</btn>
+            接收人:<input type="text" name="toUser" id="toUser" value="${showproject.uphone}" hidden/><br/>
+            <btn id="qbtn" class="chat-close"><input type="button" id="login" value="咨询客服" onclick="login()"/></btn>
             <br>
             <br>
             项目介绍:${showproject.pdesc}

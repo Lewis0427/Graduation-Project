@@ -26,12 +26,12 @@ public class Chat{
     // 用户在线数
     private static int onLineCount = 0;
     // 当前的websocket对象
-    private static ConcurrentHashMap<Integer, Chat> webSocketMap = new ConcurrentHashMap<Integer, Chat>();
+    private static ConcurrentHashMap<String, Chat> webSocketMap = new ConcurrentHashMap<String, Chat>();
     // 当前会话,属于websocket的session
     private Session session;
     // 聊天信息
-    private Integer sendUser;// 当前用户
-    private Integer toUser;// 接收人
+    private String sendUser;// 当前用户
+    private String toUser;// 接收人
     private String message;// 聊天信息
     /**
      * 连接建立成功调用的方法
@@ -40,7 +40,7 @@ public class Chat{
      * @throws IOException
      */
     @OnOpen
-    public void onOpen(@PathParam("sendUser") Integer sendUser,Session session) throws IOException {
+    public void onOpen(@PathParam("sendUser") String sendUser,Session session) throws IOException {
         this.sendUser = sendUser;
         this.session = session;
         addOnlineCount();
@@ -85,8 +85,8 @@ public class Chat{
     @OnMessage
     public void onMessage(String jsonMsg, Session session) throws IOException {
         JSONObject jsonOject = JSONObject.fromObject(jsonMsg);
-        sendUser = Integer.parseInt(jsonOject.getString("sendUser"));
-        toUser = Integer.parseInt(jsonOject.getString("toUser"));
+        sendUser = jsonOject.getString("sendUser");
+        toUser = jsonOject.getString("toUser");
         message = jsonOject.getString("message");
         //
         JSONObject msg = new JSONObject();
